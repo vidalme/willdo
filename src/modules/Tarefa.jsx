@@ -3,21 +3,30 @@ import "./Tarefa.css";
 
 const possibleStates = ["DESCREVENDO", "ATUALIZANDO", "FINALIZANDO"];
 
-function Tarefa({ tarefa: { content, id, isFavorite, isDone } }) {
+function Tarefa({
+  tarefa: { content, id, isFavorite, isDone },
+  toggleFavorite,
+}) {
   const [state, setState] = useState(possibleStates[0]);
 
   if (state === "DESCREVENDO") {
-    console.log(id);
+    // {isFavorite ? favoriteColor = "tomato" }
+
+    let favoriteColor = "";
+    isFavorite ? (favoriteColor = "tomato") : (favoriteColor = "");
+
     return (
-      <article style={{ backgroundColor: "tomato" }}>
+      <article style={{ backgroundColor: favoriteColor }}>
         <div className="tarefa-metade-cima">
           <h4>{content}</h4>
         </div>
         <div className="tarefa-metade-baixo">
-          <button>favorita</button>
-          <button>finalizada</button>
-          <button>alterar</button>
-          <button>remover</button>
+          <button onClick={(e) => toggleFavorite(e)} value={id}>
+            {isFavorite ? "Desfavoritar" : "Favoritar"}
+          </button>
+          <button value={id}>finalizada</button>
+          <button value={id}>alterar</button>
+          <button value={id}>remover</button>
         </div>
       </article>
     );

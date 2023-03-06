@@ -1,7 +1,7 @@
 article.categoria {
-  border: 5px solid black;
-  background-color: teal;
+  background-color: rgb(40, 62, 83);
   border-radius: 15px;
+  padding: 0.3rem;
 }
 
 .header-categoria {

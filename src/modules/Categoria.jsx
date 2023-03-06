@@ -31,6 +31,35 @@ function Categoria({ name, id, removeCategoria }) {
   }
   function removeTarefa() {}
 
+  function toggleFavorite(e) {
+    const id = Number(e.target.value);
+    const tarefaEssa = tarefas.find((tarefa) => tarefa.id === id);
+    tarefaEssa.isFavorite = !tarefaEssa.isFavorite;
+
+    let novaOrdemTarefas = [];
+    if (tarefaEssa.isFavorite) {
+      novaOrdemTarefas = moveTopoListaTarefas(tarefaEssa);
+    } else {
+      novaOrdemTarefas = moveFundoListaTarefas(tarefaEssa);
+    }
+    console.log(novaOrdemTarefas);
+    setTarefas([...novaOrdemTarefas]);
+  }
+
+  function moveTopoListaTarefas(tarefaEssa) {
+    const semEssaTarefa = tarefas.filter((tarefa) => {
+      return tarefa !== tarefaEssa;
+    });
+    return [tarefaEssa, ...semEssaTarefa];
+  }
+
+  function moveFundoListaTarefas(tarefaEssa) {
+    const semEssaTarefa = tarefas.filter((tarefa) => {
+      return tarefa !== tarefaEssa;
+    });
+    return [...semEssaTarefa, tarefaEssa];
+  }
+
   function handleAlteracaoTitulo(e) {
     e.preventDefault();
     setTitulo(e.target.alteraTituloInput.value);
@@ -73,7 +102,7 @@ function Categoria({ name, id, removeCategoria }) {
           </form>
         </header>
 
-        <section>{ListaTarefas(tarefas)}</section>
+        <section>{ListaTarefas(tarefas, toggleFavorite)}</section>
       </article>
     );
   }
@@ -104,29 +133,25 @@ function Categoria({ name, id, removeCategoria }) {
             </button>
           </form>
         </header>
-        <section>{ListaTarefas(tarefas)}</section>
+        <section>{ListaTarefas(tarefas, toggleFavorite)}</section>
       </article>
     );
   }
 }
 
-function ListaTarefas(tarefas) {
+function ListaTarefas(tarefas, toggleFavorite) {
   if (tarefas) {
     return (
       <div>
         {tarefas.map((tarefa) => {
           return (
             <Tarefa
-              estado="DESCREVENDO"
               key={tarefa.id}
               tarefa={{ ...tarefa }}
+              toggleFavorite={toggleFavorite}
             />
           );
         })}
-        {/* <Tarefa estado="DESCREVENDO" />
-      <Tarefa estado="DESCREVENDO" />
-      <Tarefa estado="ATUALIZANDO" />
-      <Tarefa estado="FINALIZANDO" /> */}
       </div>
     );
   }
