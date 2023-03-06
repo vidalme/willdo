@@ -1,0 +1,10 @@
+article {
+  border: none;
+  background-color: green;
+}
+div.tarefa-metade-cima {
+  display: flex;
+  margin: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+}
