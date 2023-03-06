@@ -18,7 +18,6 @@ function Categoria({ name, id, removeCategoria }) {
 
     setTarefas(() => {
       return [
-        ...tarefas,
         {
           content: e.target.novaTarefaInput.value,
           id: uniqueID,
@@ -26,11 +25,11 @@ function Categoria({ name, id, removeCategoria }) {
           isDone: false,
           state: "DESCRITO",
         },
+        ...tarefas,
       ];
     });
     uniqueID++;
   }
-  function removeTarefa() {}
 
   function toggleFavorite(e) {
     const id = Number(e.target.value);
@@ -40,7 +39,7 @@ function Categoria({ name, id, removeCategoria }) {
     if (!essaTarefa.isFavorite) {
       novaOrdemTarefas = moveTopoListaTarefas(essaTarefa);
     } else {
-      novaOrdemTarefas = moveFundoListaTarefas(essaTarefa);
+      novaOrdemTarefas = moveAbaixoFavoritos(essaTarefa); //moveFundoListaTarefas(essaTarefa);
     }
 
     essaTarefa.isFavorite = !essaTarefa.isFavorite;
@@ -61,6 +60,25 @@ function Categoria({ name, id, removeCategoria }) {
     return [...semEssaTarefa, essaTarefa];
   }
 
+  function moveAcimaFinalizadas(essaTarefa) {}
+
+  function moveAbaixoFavoritos(essaTarefa) {
+    const primeiroNaoFavorito = tarefas.find((tarefa) => {
+      return tarefa.isFavorite === false;
+    });
+    const semEssaTarefa = tarefas.filter((tarefa) => {
+      return tarefa.id !== essaTarefa.id;
+    });
+    const tarefasFavoritas = semEssaTarefa.filter((tarefa) => {
+      return tarefa.isFavorite;
+    });
+    const tarefasNaoFavoritas = semEssaTarefa.filter((tarefa) => {
+      return !tarefa.isFavorite;
+    });
+
+    return [...tarefasFavoritas, essaTarefa, ...tarefasNaoFavoritas];
+  }
+
   function handleAlteracaoTitulo(e) {
     e.preventDefault();
     setTitulo(e.target.alteraTituloInput.value);
@@ -72,20 +90,18 @@ function Categoria({ name, id, removeCategoria }) {
       return tarefa.id === Number(e.target.value);
     });
 
+    let novaOrdemTarefas = [];
     if (!essaTarefa.isDone) {
-      if (essaTarefa.isFavorite) {
-        toggleFavorite(e);
-      } else {
-        moveFundoListaTarefas(essaTarefa);
-      }
+      novaOrdemTarefas = [...moveFundoListaTarefas(essaTarefa)];
+      essaTarefa.isFavorite = false;
       essaTarefa.isDone = true;
       essaTarefa.state = "FINALIZA";
     } else {
       essaTarefa.isDone = false;
       essaTarefa.state = "DESCRITO";
+      novaOrdemTarefas = [...tarefas];
     }
-
-    setTarefas([...tarefas]);
+    setTarefas([...novaOrdemTarefas]);
   }
 
   if (stateForm === "NORMAL") {
