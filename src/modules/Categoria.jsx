@@ -31,6 +31,14 @@ function Categoria({ name, id, removeCategoria }) {
     uniqueID++;
   }
 
+  function removeTarefa(e) {
+    setTarefas([
+      ...tarefas.filter((tarefa) => {
+        return tarefa.id !== Number(e.target.value);
+      }),
+    ]);
+  }
+
   function toggleFavorite(e) {
     const id = Number(e.target.value);
     const essaTarefa = tarefas.find((tarefa) => tarefa.id === id);
@@ -44,6 +52,17 @@ function Categoria({ name, id, removeCategoria }) {
 
     essaTarefa.isFavorite = !essaTarefa.isFavorite;
     setTarefas([...novaOrdemTarefas]);
+  }
+
+  function alteraTarefa(e) {
+    const id = Number(e.target.value);
+    const novasTarefas = tarefas.map((tarefa) => {
+      if (tarefa.id === id) {
+        tarefa.state = "ALTERA";
+      }
+      return tarefa;
+    });
+    setTarefas([...novasTarefas]);
   }
 
   function moveTopoListaTarefas(essaTarefa) {
@@ -60,12 +79,7 @@ function Categoria({ name, id, removeCategoria }) {
     return [...semEssaTarefa, essaTarefa];
   }
 
-  function moveAcimaFinalizadas(essaTarefa) {}
-
   function moveAbaixoFavoritos(essaTarefa) {
-    const primeiroNaoFavorito = tarefas.find((tarefa) => {
-      return tarefa.isFavorite === false;
-    });
     const semEssaTarefa = tarefas.filter((tarefa) => {
       return tarefa.id !== essaTarefa.id;
     });
@@ -104,6 +118,16 @@ function Categoria({ name, id, removeCategoria }) {
     setTarefas([...novaOrdemTarefas]);
   }
 
+  function recuperaTarefa(e) {
+    const novasTarefas = tarefas.map((tarefa) => {
+      if (tarefa.id === Number(e.target.value)) {
+        toggleDone(e);
+      }
+      return tarefa;
+    });
+    //setTarefas([...novasTarefas]);
+  }
+
   if (stateForm === "NORMAL") {
     return (
       <article className="categoria">
@@ -140,7 +164,16 @@ function Categoria({ name, id, removeCategoria }) {
           </form>
         </header>
 
-        <section>{ListaTarefas(tarefas, toggleFavorite, toggleDone)}</section>
+        <section>
+          {ListaTarefas(
+            tarefas,
+            toggleFavorite,
+            toggleDone,
+            removeTarefa,
+            recuperaTarefa,
+            alteraTarefa
+          )}
+        </section>
       </article>
     );
   }
@@ -171,13 +204,29 @@ function Categoria({ name, id, removeCategoria }) {
             </button>
           </form>
         </header>
-        <section>{ListaTarefas(tarefas, toggleFavorite, toggleDone)}</section>
+        <section>
+          {ListaTarefas(
+            tarefas,
+            toggleFavorite,
+            toggleDone,
+            removeTarefa,
+            recuperaTarefa,
+            alteraTarefa
+          )}
+        </section>
       </article>
     );
   }
 }
 
-function ListaTarefas(tarefas, toggleFavorite, toggleDone) {
+function ListaTarefas(
+  tarefas,
+  toggleFavorite,
+  toggleDone,
+  removeTarefa,
+  recuperaTarefa,
+  alteraTarefa
+) {
   if (tarefas) {
     return (
       <div>
@@ -188,6 +237,9 @@ function ListaTarefas(tarefas, toggleFavorite, toggleDone) {
               tarefa={{ ...tarefa }}
               toggleFavorite={toggleFavorite}
               toggleDone={toggleDone}
+              removeTarefa={removeTarefa}
+              recuperaTarefa={recuperaTarefa}
+              alteraTarefa={alteraTarefa}
             />
           );
         })}

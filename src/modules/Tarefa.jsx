@@ -5,6 +5,11 @@ function Tarefa({
   tarefa: { content, id, isFavorite, isDone, state },
   toggleFavorite,
   toggleDone,
+  removeTarefa,
+  recuperaTarefa,
+  alteraTarefa,
+  salvaAlterarTarefa,
+  cancelaAlterarTarefa,
 }) {
   if (state === "DESCRITO") {
     // {isFavorite ? favoriteColor = "tomato" }
@@ -25,21 +30,37 @@ function Tarefa({
           <button onClick={(e) => toggleDone(e)} value={id}>
             finalizada
           </button>
-          <button value={id}>alterar</button>
-          <button value={id}>remover</button>
+          <button onClick={(e) => alteraTarefa(e)} value={id}>
+            alterar
+          </button>
+          <button onClick={(e) => removeTarefa(e)} value={id}>
+            remover
+          </button>
         </div>
       </article>
     );
   }
-  if (state === "ATUALIZA") {
+  if (state === "ALTERA") {
     return (
       <article>
         <div className="tarefa-metade-cima">
           <input type="text" />
         </div>
         <div className="tarefa-metade-baixo">
-          <button>salvar</button>
-          <button>cancelar</button>
+          <button
+            onClick={(e) => {
+              salvaAlterarTarefa(e);
+            }}
+          >
+            salvar
+          </button>
+          <button
+            onClick={(e) => {
+              cancelaAlterarTarefa(e);
+            }}
+          >
+            cancelar
+          </button>
         </div>
       </article>
     );
@@ -58,8 +79,12 @@ function Tarefa({
           <h4>{content}</h4>
         </div>
         <div className="tarefa-metade-baixo">
-          <button>recuperar</button>
-          <button>remover</button>
+          <button onClick={(e) => recuperaTarefa(e)} value={id}>
+            recuperar
+          </button>
+          <button onClick={(e) => removeTarefa(e)} value={id}>
+            remover
+          </button>
         </div>
       </article>
     );
