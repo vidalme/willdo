@@ -8,9 +8,8 @@ let uniqueID = 0;
 export default function App() {
   const [categorias, setCategorias] = useState([]);
 
-  function handleSubmit(e) {
+  function adicionaCategoria(e) {
     e.preventDefault();
-
     setCategorias([
       ...categorias,
       {
@@ -21,11 +20,20 @@ export default function App() {
     uniqueID++;
   }
 
+  function removeCategoria(id) {
+    const novasCategorias = categorias.filter((categoria) => {
+      return id !== categoria.id;
+    });
+    setCategorias(novasCategorias);
+  }
+
+  function removeTodos() {}
+
   return (
     <main className="app-main">
       <section className="adicionar-categoria">
         <h1>Adicionar categoria</h1>
-        <form action="" onSubmit={handleSubmit}>
+        <form action="" onSubmit={adicionaCategoria}>
           <input
             className="adicionar-categoria-input"
             type="text"
@@ -38,15 +46,12 @@ export default function App() {
       <section className="categorias-section">
         {categorias.length > 0
           ? categorias.map((categoria) => {
-              {
-                console.log(categoria);
-              }
-
               return (
                 <Categoria
                   name={categoria.name}
                   id={categoria.id}
                   key={categoria.id}
+                  removeCategoria={removeCategoria}
                 />
               );
             })

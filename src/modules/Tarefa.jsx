@@ -3,14 +3,15 @@ import "./Tarefa.css";
 
 const possibleStates = ["DESCREVENDO", "ATUALIZANDO", "FINALIZANDO"];
 
-function Tarefa({ estado }) {
-  const [state, setState] = useState(possibleStates[2]);
+function Tarefa({ tarefa: { content, id, isFavorite, isDone } }) {
+  const [state, setState] = useState(possibleStates[0]);
 
-  if (estado === "DESCREVENDO") {
+  if (state === "DESCREVENDO") {
+    console.log(id);
     return (
-      <article>
+      <article style={{ backgroundColor: "tomato" }}>
         <div className="tarefa-metade-cima">
-          <h4>Eu sou a tarefa, vai estudar react</h4>
+          <h4>{content}</h4>
         </div>
         <div className="tarefa-metade-baixo">
           <button>favorita</button>
@@ -21,7 +22,7 @@ function Tarefa({ estado }) {
       </article>
     );
   }
-  if (estado === "ATUALIZANDO") {
+  if (state === "ATUALIZANDO") {
     return (
       <article>
         <div className="tarefa-metade-cima">
@@ -34,7 +35,7 @@ function Tarefa({ estado }) {
       </article>
     );
   }
-  if (estado === "FINALIZANDO") {
+  if (state === "FINALIZANDO") {
     return (
       <article>
         <div
@@ -45,7 +46,7 @@ function Tarefa({ estado }) {
             fontStyle: "italic",
           }}
         >
-          <h4>Eu sou a tarefa, vai estudar react</h4>
+          <h4>{content}</h4>
         </div>
         <div className="tarefa-metade-baixo">
           <button>recuperar</button>

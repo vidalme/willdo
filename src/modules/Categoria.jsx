@@ -1,28 +1,135 @@
 import Tarefa from "./Tarefa";
 import "./Categoria.css";
-function Categoria({ name, id }) {
-  console.log("cade eu/??");
-  return (
-    <article className="categoria">
-      <header>
-        <div className="header-categoria">
-          <h2>{name}</h2>
-          <button> alterar </button>
-          <button> remover </button>
-        </div>
-        <form action="./" className="form-adicionar-tarefa">
-          <input type="text" name="" id="" />
-          <button> adicionar tarefa</button>
-        </form>
-      </header>
+import { useState } from "react";
+
+//id unica para cada categoria criada (cheating a lil bit here)
+let uniqueID = 0;
+
+const possibleStates = ["NORMAL", "ALTERAR_TITULO"];
+
+function Categoria({ name, id, removeCategoria }) {
+  const [stateForm, setStateForm] = useState(possibleStates[0]);
+  const [titulo, setTitulo] = useState(name);
+
+  const [tarefas, setTarefas] = useState([]);
+
+  function adicionaTarefa(e) {
+    e.preventDefault();
+
+    setTarefas(() => {
+      return [
+        ...tarefas,
+        {
+          content: e.target.novaTarefaInput.value,
+          id: uniqueID,
+          isFavorite: false,
+          isDone: false,
+        },
+      ];
+    });
+    uniqueID++;
+  }
+  function removeTarefa() {}
+
+  function handleAlteracaoTitulo(e) {
+    e.preventDefault();
+    setTitulo(e.target.alteraTituloInput.value);
+    setStateForm("NORMAL");
+  }
+
+  if (stateForm === "NORMAL") {
+    return (
+      <article className="categoria">
+        <header>
+          <div className="header-categoria">
+            <h2>{titulo}</h2>
+            <button
+              onClick={() => {
+                setStateForm(possibleStates[1]);
+              }}
+            >
+              {" "}
+              alterar{" "}
+            </button>
+            <button
+              onClick={() => {
+                removeCategoria(id);
+              }}
+            >
+              {" "}
+              remover{" "}
+            </button>
+          </div>
+
+          <form
+            action="./"
+            className="form-adicionar-tarefa"
+            onSubmit={(e) => {
+              adicionaTarefa(e);
+            }}
+          >
+            <input type="text" name="novaTarefaInput" id="" />
+            <button> adicionar tarefa</button>
+          </form>
+        </header>
+
+        <section>{ListaTarefas(tarefas)}</section>
+      </article>
+    );
+  }
+  if (stateForm === "ALTERAR_TITULO") {
+    return (
+      <article className="categoria">
+        <header>
+          <form
+            action=""
+            onSubmit={(e) => {
+              handleAlteracaoTitulo(e);
+            }}
+          >
+            <input
+              style={{ margin: "5px" }}
+              type="text"
+              name="alteraTituloInput"
+              id="alteraTituloInput"
+            />
+            <button action="submit">salvar</button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setStateForm(possibleStates[0]);
+              }}
+            >
+              cancelar
+            </button>
+          </form>
+        </header>
+        <section>{ListaTarefas(tarefas)}</section>
+      </article>
+    );
+  }
+}
+
+function ListaTarefas(tarefas) {
+  if (tarefas) {
+    return (
       <div>
-        <Tarefa estado="DESCREVENDO" />
-        <Tarefa estado="DESCREVENDO" />
-        {/* <Tarefa estado="ATUALIZANDO" /> */}
-        <Tarefa estado="FINALIZANDO" />
+        {tarefas.map((tarefa) => {
+          return (
+            <Tarefa
+              estado="DESCREVENDO"
+              key={tarefa.id}
+              tarefa={{ ...tarefa }}
+            />
+          );
+        })}
+        {/* <Tarefa estado="DESCREVENDO" />
+      <Tarefa estado="DESCREVENDO" />
+      <Tarefa estado="ATUALIZANDO" />
+      <Tarefa estado="FINALIZANDO" /> */}
       </div>
-    </article>
-  );
+    );
+  }
 }
 
 export default Categoria;
