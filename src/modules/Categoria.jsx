@@ -24,6 +24,7 @@ function Categoria({ name, id, removeCategoria }) {
           id: uniqueID,
           isFavorite: false,
           isDone: false,
+          state: "DESCRITO",
         },
       ];
     });
@@ -33,37 +34,58 @@ function Categoria({ name, id, removeCategoria }) {
 
   function toggleFavorite(e) {
     const id = Number(e.target.value);
-    const tarefaEssa = tarefas.find((tarefa) => tarefa.id === id);
-    tarefaEssa.isFavorite = !tarefaEssa.isFavorite;
+    const essaTarefa = tarefas.find((tarefa) => tarefa.id === id);
 
     let novaOrdemTarefas = [];
-    if (tarefaEssa.isFavorite) {
-      novaOrdemTarefas = moveTopoListaTarefas(tarefaEssa);
+    if (!essaTarefa.isFavorite) {
+      novaOrdemTarefas = moveTopoListaTarefas(essaTarefa);
     } else {
-      novaOrdemTarefas = moveFundoListaTarefas(tarefaEssa);
+      novaOrdemTarefas = moveFundoListaTarefas(essaTarefa);
     }
-    console.log(novaOrdemTarefas);
+
+    essaTarefa.isFavorite = !essaTarefa.isFavorite;
     setTarefas([...novaOrdemTarefas]);
   }
 
-  function moveTopoListaTarefas(tarefaEssa) {
+  function moveTopoListaTarefas(essaTarefa) {
     const semEssaTarefa = tarefas.filter((tarefa) => {
-      return tarefa !== tarefaEssa;
+      return tarefa !== essaTarefa;
     });
-    return [tarefaEssa, ...semEssaTarefa];
+    return [essaTarefa, ...semEssaTarefa];
   }
 
-  function moveFundoListaTarefas(tarefaEssa) {
+  function moveFundoListaTarefas(essaTarefa) {
     const semEssaTarefa = tarefas.filter((tarefa) => {
-      return tarefa !== tarefaEssa;
+      return tarefa !== essaTarefa;
     });
-    return [...semEssaTarefa, tarefaEssa];
+    return [...semEssaTarefa, essaTarefa];
   }
 
   function handleAlteracaoTitulo(e) {
     e.preventDefault();
     setTitulo(e.target.alteraTituloInput.value);
     setStateForm("NORMAL");
+  }
+
+  function toggleDone(e) {
+    const essaTarefa = tarefas.find((tarefa) => {
+      return tarefa.id === Number(e.target.value);
+    });
+
+    if (!essaTarefa.isDone) {
+      if (essaTarefa.isFavorite) {
+        toggleFavorite(e);
+      } else {
+        moveFundoListaTarefas(essaTarefa);
+      }
+      essaTarefa.isDone = true;
+      essaTarefa.state = "FINALIZA";
+    } else {
+      essaTarefa.isDone = false;
+      essaTarefa.state = "DESCRITO";
+    }
+
+    setTarefas([...tarefas]);
   }
 
   if (stateForm === "NORMAL") {
@@ -102,7 +124,7 @@ function Categoria({ name, id, removeCategoria }) {
           </form>
         </header>
 
-        <section>{ListaTarefas(tarefas, toggleFavorite)}</section>
+        <section>{ListaTarefas(tarefas, toggleFavorite, toggleDone)}</section>
       </article>
     );
   }
@@ -133,13 +155,13 @@ function Categoria({ name, id, removeCategoria }) {
             </button>
           </form>
         </header>
-        <section>{ListaTarefas(tarefas, toggleFavorite)}</section>
+        <section>{ListaTarefas(tarefas, toggleFavorite, toggleDone)}</section>
       </article>
     );
   }
 }
 
-function ListaTarefas(tarefas, toggleFavorite) {
+function ListaTarefas(tarefas, toggleFavorite, toggleDone) {
   if (tarefas) {
     return (
       <div>
@@ -149,6 +171,7 @@ function ListaTarefas(tarefas, toggleFavorite) {
               key={tarefa.id}
               tarefa={{ ...tarefa }}
               toggleFavorite={toggleFavorite}
+              toggleDone={toggleDone}
             />
           );
         })}

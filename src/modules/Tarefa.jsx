@@ -1,19 +1,17 @@
 import { useState } from "react";
 import "./Tarefa.css";
 
-const possibleStates = ["DESCREVENDO", "ATUALIZANDO", "FINALIZANDO"];
-
 function Tarefa({
-  tarefa: { content, id, isFavorite, isDone },
+  tarefa: { content, id, isFavorite, isDone, state },
   toggleFavorite,
+  toggleDone,
 }) {
-  const [state, setState] = useState(possibleStates[0]);
-
-  if (state === "DESCREVENDO") {
+  if (state === "DESCRITO") {
     // {isFavorite ? favoriteColor = "tomato" }
 
     let favoriteColor = "";
     isFavorite ? (favoriteColor = "tomato") : (favoriteColor = "");
+    // isDone ? :
 
     return (
       <article style={{ backgroundColor: favoriteColor }}>
@@ -24,14 +22,16 @@ function Tarefa({
           <button onClick={(e) => toggleFavorite(e)} value={id}>
             {isFavorite ? "Desfavoritar" : "Favoritar"}
           </button>
-          <button value={id}>finalizada</button>
+          <button onClick={(e) => toggleDone(e)} value={id}>
+            finalizada
+          </button>
           <button value={id}>alterar</button>
           <button value={id}>remover</button>
         </div>
       </article>
     );
   }
-  if (state === "ATUALIZANDO") {
+  if (state === "ATUALIZA") {
     return (
       <article>
         <div className="tarefa-metade-cima">
@@ -44,7 +44,7 @@ function Tarefa({
       </article>
     );
   }
-  if (state === "FINALIZANDO") {
+  if (state === "FINALIZA") {
     return (
       <article>
         <div
