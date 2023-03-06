@@ -1,10 +1,13 @@
 article {
   border: none;
-  background-color: green;
+  background-color: rgb(52, 65, 68);
 }
 div.tarefa-metade-cima {
   display: flex;
-  margin: 0.5rem;
   justify-content: space-between;
-  align-items: center;
+}
+div.tarefa-metade-baixo {
+  display: flex;
+  margin: 0.2rem;
+  justify-content: end;
 }

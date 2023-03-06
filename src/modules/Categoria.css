@@ -1,7 +1,14 @@
 article.categoria {
-  width: 300px;
-  height: auto;
   border: 5px solid black;
   background-color: teal;
   border-radius: 15px;
+}
+
+.header-categoria {
+  display: flex;
+  align-items: center;
+}
+
+.form-adicionar-tarefa {
+  margin: 1rem;
 }
