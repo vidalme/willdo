@@ -2,8 +2,23 @@ import Tarefa from "./Tarefa";
 import "./Categoria.css";
 import { useState } from "react";
 
-//id unica para cada categoria criada (cheating a lil bit here)
+// const jsonCateg = JSON.parse(localStorage.getItem("categorias"));
+
+// console.log(jsonCateg);
+
+// //confere se tem dados ja salvos no cliente, se nao tiver seta pra iniciar do zero
+// const cachedJson = JSON.parse(localStorage.getItem("tarefas"));
+// const cachedTarefas = cachedJson ? cachedJson : [];
+
+// //meio que cheating aqui, tenho que ver direitinho pra criar IDs unicas
+// //se tiver categorias no json do cliente, procuro elemento com id mais alto
+// // comeco a contar o meu uniqueID a partir do id mais alto encontrado no cliente
 let uniqueID = 0;
+// let uniqueID = cachedJson
+//   ? cachedJson.reduce((acc, ele) => {
+//       return ele.id > acc ? ele.id : acc;
+//     }, 0) + 1
+//   : 0;
 
 const possibleStates = ["NORMAL", "ALTERAR_TITULO"];
 
@@ -12,6 +27,12 @@ function Categoria({ name, id, removeCategoria }) {
   const [titulo, setTitulo] = useState(name);
 
   const [tarefas, setTarefas] = useState([]);
+
+  function setNovasTarefas(novasTarefas) {
+    //localStorage.setItem("tarefas", JSON.stringify(novasTarefas));
+    setTarefas([...novasTarefas]);
+    //console.log(novasTarefas);
+  }
 
   function adicionaTarefa(e) {
     e.preventDefault();
@@ -31,11 +52,11 @@ function Categoria({ name, id, removeCategoria }) {
       ...naoFavoritasTarefas,
     ];
 
-    setTarefas(novasTarefas);
+    setNovasTarefas(novasTarefas);
   }
 
   function removeTarefa(e) {
-    setTarefas([
+    setNovasTarefas([
       ...tarefas.filter((tarefa) => {
         return tarefa.id !== Number(e.target.value);
       }),
@@ -54,7 +75,7 @@ function Categoria({ name, id, removeCategoria }) {
     }
 
     essaTarefa.isFavorite = !essaTarefa.isFavorite;
-    setTarefas([...novaOrdemTarefas]);
+    setNovasTarefas([...novaOrdemTarefas]);
   }
 
   function moveTopoListaTarefas(essaTarefa) {
@@ -107,7 +128,7 @@ function Categoria({ name, id, removeCategoria }) {
       essaTarefa.state = "DESCRITO";
       novaOrdemTarefas = [...tarefas];
     }
-    setTarefas([...novaOrdemTarefas]);
+    setNovasTarefas([...novaOrdemTarefas]);
   }
 
   function recuperaTarefa(e) {
@@ -126,17 +147,23 @@ function Categoria({ name, id, removeCategoria }) {
       }
       return tarefa;
     });
-    setTarefas([...novasTarefas]);
+    setNovasTarefas([...novasTarefas]);
   }
 
   function salvaAlterarTarefa(e) {
-    console.log("oi");
-    // const id = Number(e.target.value);
-    // const novasTarefas = tarefas.map((tarefa) => {
-    //   if (tarefa.id === id) {
-    //     // tarefa.id
-    //   }
-    // });
+    e.preventDefault();
+
+    const id = Number(e.target.id);
+
+    const novasTarefas = tarefas.map((tarefa) => {
+      if (tarefa.id === id) {
+        tarefa.content = e.target.content.value;
+        tarefa.state = "DESCRITO";
+      }
+      return tarefa;
+    });
+
+    setNovasTarefas([...novasTarefas]);
   }
 
   function cancelaAlterarTarefa(e) {
@@ -147,7 +174,7 @@ function Categoria({ name, id, removeCategoria }) {
       }
       return tarefa;
     });
-    setTarefas([...novasTarefas]);
+    setNovasTarefas([...novasTarefas]);
   }
 
   if (stateForm === "NORMAL") {

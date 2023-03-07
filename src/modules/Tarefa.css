@@ -11,3 +11,7 @@ div.tarefa-metade-baixo {
   margin: 0.2rem;
   justify-content: end;
 }
+
+.altera-tarefa-wrapper {
+  background-color: pink;
+}

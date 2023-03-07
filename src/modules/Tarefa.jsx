@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef } from "react";
 import "./Tarefa.css";
 
 function Tarefa({
@@ -11,15 +11,9 @@ function Tarefa({
   salvaAlterarTarefa,
   cancelaAlterarTarefa,
 }) {
-  const [editTarefa, setEditTarefa] = useState("");
-  function handleChange(e) {
-    setEditTarefa(e.target.value);
-  }
-
   if (state === "DESCRITO") {
     let favoriteColor = "";
     isFavorite ? (favoriteColor = "tomato") : (favoriteColor = "");
-
     return (
       <article style={{ backgroundColor: favoriteColor }}>
         <div className="tarefa-metade-cima">
@@ -44,19 +38,20 @@ function Tarefa({
   }
   if (state === "ALTERA") {
     return (
-      <article>
-        <div className="tarefa-metade-cima">
-          <input
-            type="text"
-            name="nome"
-            onChange={handleChange}
-            onSubmit={salvaAlterarTarefa}
-            value={editTarefa}
-          />
-        </div>
-        <div className="tarefa-metade-baixo">
+      <article className="altera-tarefa-wrapper">
+        <form
+          id={id}
+          name="form1"
+          className="tarefa-metade-cima"
+          onSubmit={salvaAlterarTarefa}
+        >
+          <input type="text" name="content" />
           <button type="submit">salvar</button>
+        </form>
+        <div className="tarefa-metade-baixo">
+          {" "}
           <button
+            type="reset"
             onClick={(e) => {
               cancelaAlterarTarefa(e);
             }}
