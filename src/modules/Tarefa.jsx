@@ -11,12 +11,14 @@ function Tarefa({
   salvaAlterarTarefa,
   cancelaAlterarTarefa,
 }) {
-  if (state === "DESCRITO") {
-    // {isFavorite ? favoriteColor = "tomato" }
+  const [editTarefa, setEditTarefa] = useState("");
+  function handleChange(e) {
+    setEditTarefa(e.target.value);
+  }
 
+  if (state === "DESCRITO") {
     let favoriteColor = "";
     isFavorite ? (favoriteColor = "tomato") : (favoriteColor = "");
-    // isDone ? :
 
     return (
       <article style={{ backgroundColor: favoriteColor }}>
@@ -44,20 +46,21 @@ function Tarefa({
     return (
       <article>
         <div className="tarefa-metade-cima">
-          <input type="text" />
+          <input
+            type="text"
+            name="nome"
+            onChange={handleChange}
+            onSubmit={salvaAlterarTarefa}
+            value={editTarefa}
+          />
         </div>
         <div className="tarefa-metade-baixo">
-          <button
-            onClick={(e) => {
-              salvaAlterarTarefa(e);
-            }}
-          >
-            salvar
-          </button>
+          <button type="submit">salvar</button>
           <button
             onClick={(e) => {
               cancelaAlterarTarefa(e);
             }}
+            value={id}
           >
             cancelar
           </button>

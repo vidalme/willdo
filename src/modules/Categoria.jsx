@@ -16,19 +16,22 @@ function Categoria({ name, id, removeCategoria }) {
   function adicionaTarefa(e) {
     e.preventDefault();
 
-    setTarefas(() => {
-      return [
-        {
-          content: e.target.novaTarefaInput.value,
-          id: uniqueID,
-          isFavorite: false,
-          isDone: false,
-          state: "DESCRITO",
-        },
-        ...tarefas,
-      ];
-    });
-    uniqueID++;
+    const favoritasTarefas = tarefas.filter((tarefa) => tarefa.isFavorite);
+    const naoFavoritasTarefas = tarefas.filter((tarefa) => !tarefa.isFavorite);
+
+    const novasTarefas = [
+      ...favoritasTarefas,
+      {
+        content: e.target.novaTarefaInput.value,
+        id: uniqueID++,
+        isFavorite: false,
+        isDone: false,
+        state: "DESCRITO",
+      },
+      ...naoFavoritasTarefas,
+    ];
+
+    setTarefas(novasTarefas);
   }
 
   function removeTarefa(e) {
@@ -52,17 +55,6 @@ function Categoria({ name, id, removeCategoria }) {
 
     essaTarefa.isFavorite = !essaTarefa.isFavorite;
     setTarefas([...novaOrdemTarefas]);
-  }
-
-  function alteraTarefa(e) {
-    const id = Number(e.target.value);
-    const novasTarefas = tarefas.map((tarefa) => {
-      if (tarefa.id === id) {
-        tarefa.state = "ALTERA";
-      }
-      return tarefa;
-    });
-    setTarefas([...novasTarefas]);
   }
 
   function moveTopoListaTarefas(essaTarefa) {
@@ -125,7 +117,37 @@ function Categoria({ name, id, removeCategoria }) {
       }
       return tarefa;
     });
-    //setTarefas([...novasTarefas]);
+  }
+  function alteraTarefa(e) {
+    const id = Number(e.target.value);
+    const novasTarefas = tarefas.map((tarefa) => {
+      if (tarefa.id === id) {
+        tarefa.state = "ALTERA";
+      }
+      return tarefa;
+    });
+    setTarefas([...novasTarefas]);
+  }
+
+  function salvaAlterarTarefa(e) {
+    console.log("oi");
+    // const id = Number(e.target.value);
+    // const novasTarefas = tarefas.map((tarefa) => {
+    //   if (tarefa.id === id) {
+    //     // tarefa.id
+    //   }
+    // });
+  }
+
+  function cancelaAlterarTarefa(e) {
+    const id = Number(e.target.value);
+    const novasTarefas = tarefas.map((tarefa) => {
+      if (tarefa.id === id) {
+        tarefa.state = "DESCRITO";
+      }
+      return tarefa;
+    });
+    setTarefas([...novasTarefas]);
   }
 
   if (stateForm === "NORMAL") {
@@ -171,7 +193,9 @@ function Categoria({ name, id, removeCategoria }) {
             toggleDone,
             removeTarefa,
             recuperaTarefa,
-            alteraTarefa
+            alteraTarefa,
+            salvaAlterarTarefa,
+            cancelaAlterarTarefa
           )}
         </section>
       </article>
@@ -211,7 +235,9 @@ function Categoria({ name, id, removeCategoria }) {
             toggleDone,
             removeTarefa,
             recuperaTarefa,
-            alteraTarefa
+            alteraTarefa,
+            salvaAlterarTarefa,
+            cancelaAlterarTarefa
           )}
         </section>
       </article>
@@ -225,7 +251,9 @@ function ListaTarefas(
   toggleDone,
   removeTarefa,
   recuperaTarefa,
-  alteraTarefa
+  alteraTarefa,
+  salvaAlterarTarefa,
+  cancelaAlterarTarefa
 ) {
   if (tarefas) {
     return (
@@ -240,6 +268,8 @@ function ListaTarefas(
               removeTarefa={removeTarefa}
               recuperaTarefa={recuperaTarefa}
               alteraTarefa={alteraTarefa}
+              salvaAlterarTarefa={salvaAlterarTarefa}
+              cancelaAlterarTarefa={cancelaAlterarTarefa}
             />
           );
         })}
