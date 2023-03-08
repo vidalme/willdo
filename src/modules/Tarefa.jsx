@@ -21,7 +21,7 @@ function Tarefa({
     return (
       <article style={{ backgroundColor: favoriteColor }}>
         <div className="tarefa-metade-cima">
-          <h4>{content}</h4>
+          <p>{content}</p>
         </div>
         <div className="tarefa-metade-baixo">
           <button

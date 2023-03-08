@@ -2,7 +2,7 @@ import { CgPlayListAdd } from "react-icons/cg";
 
 const FormCriacaoCategoria = ({ adicionaCategoria }) => {
   return (
-    <section className="container">
+    <section className="container" style={{ margin: "2rem" }}>
       {/* <h1>Adicionar categoria</h1> */}
       <form className="" onSubmit={adicionaCategoria}>
         <label className="form-label" htmlFor="">

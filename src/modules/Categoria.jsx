@@ -178,26 +178,35 @@ function Categoria({
 
   if (stateForm === "NORMAL") {
     return (
-      <article className="card">
+      <article
+        className="card"
+        style={{
+          marginTop: "2rem",
+          padding: "1rem",
+          backgroundColor: "#eeeeee",
+        }}
+      >
         <header>
-          <div className="row">
-            <h2 className="col-auto">{titulo}</h2>
-            <button
-              className=" col-auto btn btn-outline-primary sm"
-              onClick={() => {
-                setStateForm(possibleStates[1]);
-              }}
-            >
-              <MdDriveFileRenameOutline style={{ pointerEvents: "none" }} />
-            </button>
-            <button
-              className=" col-auto btn btn-outline-danger"
-              onClick={() => {
-                removeCategoria(categoria.id);
-              }}
-            >
-              <MdOutlineDeleteForever style={{ pointerEvents: "none" }} />
-            </button>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <h5 className="">{titulo}</h5>
+            <div>
+              <button
+                className=" btn btn-outline-primary sm"
+                onClick={() => {
+                  setStateForm(possibleStates[1]);
+                }}
+              >
+                <MdDriveFileRenameOutline style={{ pointerEvents: "none" }} />
+              </button>
+              <button
+                className="btn btn-outline-danger"
+                onClick={() => {
+                  removeCategoria(categoria.id);
+                }}
+              >
+                <MdOutlineDeleteForever style={{ pointerEvents: "none" }} />
+              </button>
+            </div>
           </div>
 
           <form
