@@ -61,7 +61,6 @@ function Categoria({ name, id, tarefas: tarefasHerdadas, removeCategoria }) {
 
     setNovasTarefas(novasTarefas);
   }
-
   function removeTarefa(e) {
     //identifica e remove quem pediu pra ser removida
     setNovasTarefas([
