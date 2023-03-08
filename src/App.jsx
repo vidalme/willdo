@@ -1,8 +1,13 @@
 import ListaCategorias from "./modules/ListaCategorias";
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  return <ListaCategorias />;
+  return (
+    <div className="container">
+      <ListaCategorias />
+    </div>
+  );
 }
 
 export default App;

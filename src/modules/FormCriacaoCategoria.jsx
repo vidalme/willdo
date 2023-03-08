@@ -1,17 +1,21 @@
-import React from "react";
-
 const FormCriacaoCategoria = ({ adicionaCategoria }) => {
   return (
-    <section className="adicionar-categoria">
-      <h1>Adicionar categoria</h1>
-      <form action="" onSubmit={adicionaCategoria}>
-        <input
-          className="adicionar-categoria-input"
-          type="text"
-          name="name"
-          id=""
-        />
-        <button className="adicionar-categoria-botao">+</button>
+    <section className="container">
+      {/* <h1>Adicionar categoria</h1> */}
+      <form className="" onSubmit={adicionaCategoria}>
+        <label className="form-label" htmlFor="">
+          Nova Categoria
+        </label>
+        <div className="input-group">
+          <input
+            className="form-control form-control-lg"
+            placeholder="adicione categoria"
+            name="name"
+          ></input>
+          <button className="btn btn-primary" type="submit">
+            +
+          </button>
+        </div>
       </form>
     </section>
   );

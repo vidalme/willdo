@@ -1,17 +1,1 @@
-article {
-  border: none;
-  background-color: rgb(52, 65, 68);
-}
-div.tarefa-metade-cima {
-  display: flex;
-  justify-content: space-between;
-}
-div.tarefa-metade-baixo {
-  display: flex;
-  margin: 0.2rem;
-  justify-content: end;
-}
 
-.altera-tarefa-wrapper {
-  background-color: pink;
-}

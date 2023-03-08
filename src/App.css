@@ -1,29 +1,3 @@
-body {
-  color: bisque;
-  background-color: rgb(31, 33, 39);
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
-}
-
-.adicionar-categoria {
-  margin-left: 1rem;
-}
-
-.adicionar-categoria-input {
-  margin-right: 0.4rem;
-  margin-bottom: 1rem;
-}
-
-.adicionar-categoria-input {
-  height: 1.5rem;
-  width: 50%;
-}
-
-.adicionar-categoria-botao {
-  height: 1.7rem;
-  width: 2.7rem;
-}
-
 .categorias-section {
   display: grid;
   gap: 0.5rem;

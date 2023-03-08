@@ -175,25 +175,25 @@ function Categoria({
 
   if (stateForm === "NORMAL") {
     return (
-      <article className="categoria">
+      <article className="container">
         <header>
-          <div className="header-categoria">
-            <h2>{titulo}</h2>
+          <div className="row">
+            <h2 className="col-auto">{titulo}</h2>
             <button
+              className=" col-auto btn btn-outline-primary"
               onClick={() => {
                 setStateForm(possibleStates[1]);
               }}
             >
-              {" "}
-              alterar{" "}
+              renomear
             </button>
             <button
+              className=" col-auto btn btn-outline-primary"
               onClick={() => {
                 removeCategoria(categoria.id);
               }}
             >
-              {" "}
-              remover{" "}
+              X
             </button>
           </div>
 
@@ -204,8 +204,15 @@ function Categoria({
               adicionaTarefa(e);
             }}
           >
-            <input type="text" name="novaTarefaInput" id="" />
-            <button> adicionar tarefa</button>
+            <div className="input-group">
+              <input
+                className="form-control"
+                type="text"
+                name="novaTarefaInput"
+                placeholder="adicionar tarefa"
+              />
+              <button className="btn btn-primary"> +</button>
+            </div>
           </form>
         </header>
 
@@ -233,13 +240,17 @@ function Categoria({
             }}
           >
             <input
+              className="form-control"
               style={{ margin: "5px" }}
               type="text"
               name="alteraTituloInput"
               id="alteraTituloInput"
             />
-            <button action="submit">salvar</button>
+            <button className="btn btn-outline-primary" action="submit">
+              salvar
+            </button>
             <button
+              className="btn btn-outline-primary"
               onClick={(e) => {
                 e.preventDefault();
                 setStateForm(possibleStates[0]);

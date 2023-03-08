@@ -1,6 +1,6 @@
-import { useRef } from "react";
 import "./Tarefa.css";
-
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 function Tarefa({
   tarefa: { content, id, isFavorite, isDone, state },
   toggleFavorite,
@@ -13,23 +13,39 @@ function Tarefa({
 }) {
   if (state === "DESCRITO") {
     let favoriteColor = "";
-    isFavorite ? (favoriteColor = "tomato") : (favoriteColor = "");
+    isFavorite ? (favoriteColor = "lightpink") : (favoriteColor = "");
     return (
       <article style={{ backgroundColor: favoriteColor }}>
         <div className="tarefa-metade-cima">
           <h4>{content}</h4>
         </div>
         <div className="tarefa-metade-baixo">
-          <button onClick={(e) => toggleFavorite(e)} value={id}>
+          <button
+            className="btn btn-outline-primary"
+            onClick={(e) => toggleFavorite(e)}
+            value={id}
+          >
             {isFavorite ? "Desfavoritar" : "Favoritar"}
           </button>
-          <button onClick={(e) => toggleDone(e)} value={id}>
+          <button
+            className="btn btn-outline-primary"
+            onClick={(e) => toggleDone(e)}
+            value={id}
+          >
             finalizada
           </button>
-          <button onClick={(e) => alteraTarefa(e)} value={id}>
+          <button
+            className="btn btn-outline-primary"
+            onClick={(e) => alteraTarefa(e)}
+            value={id}
+          >
             alterar
           </button>
-          <button onClick={(e) => removeTarefa(e)} value={id}>
+          <button
+            className="btn btn-outline-primary"
+            onClick={(e) => removeTarefa(e)}
+            value={id}
+          >
             remover
           </button>
         </div>
@@ -38,19 +54,23 @@ function Tarefa({
   }
   if (state === "ALTERA") {
     return (
-      <article className="altera-tarefa-wrapper">
+      <article className="container">
         <form
           id={id}
           name="form1"
           className="tarefa-metade-cima"
           onSubmit={salvaAlterarTarefa}
         >
-          <input type="text" name="content" />
-          <button type="submit">salvar</button>
-        </form>
-        <div className="tarefa-metade-baixo">
-          {" "}
+          <input
+            className="form-control form-control-sm"
+            type="text"
+            name="content"
+          />
+          <button className="btn btn-outline-primary" type="submit">
+            salvar
+          </button>
           <button
+            className="btn btn-outline-primary"
             type="reset"
             onClick={(e) => {
               cancelaAlterarTarefa(e);
@@ -59,13 +79,13 @@ function Tarefa({
           >
             cancelar
           </button>
-        </div>
+        </form>
       </article>
     );
   }
   if (state === "FINALIZA") {
     return (
-      <article>
+      <article className="container">
         <div
           className="tarefa-metade-cima"
           style={{
@@ -77,10 +97,18 @@ function Tarefa({
           <h4>{content}</h4>
         </div>
         <div className="tarefa-metade-baixo">
-          <button onClick={(e) => recuperaTarefa(e)} value={id}>
+          <button
+            className="btn btn-outline-primary"
+            onClick={(e) => recuperaTarefa(e)}
+            value={id}
+          >
             recuperar
           </button>
-          <button onClick={(e) => removeTarefa(e)} value={id}>
+          <button
+            className="btn btn-outline-primary"
+            onClick={(e) => removeTarefa(e)}
+            value={id}
+          >
             remover
           </button>
         </div>

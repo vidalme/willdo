@@ -1,13 +1,3 @@
 article.categoria {
-  background-color: rgb(40, 62, 83);
-  padding: 0.3rem;
-}
-
-.header-categoria {
-  display: flex;
-  align-items: center;
-}
-
-.form-adicionar-tarefa {
-  margin: 1rem;
+  border: solid 1px rgb(160, 159, 159);
 }
