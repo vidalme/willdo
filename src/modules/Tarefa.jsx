@@ -1,6 +1,10 @@
 import "./Tarefa.css";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import { MdFavoriteBorder } from "react-icons/md";
+import { MdFavorite } from "react-icons/md";
+import { MdDone } from "react-icons/md";
+import { MdDriveFileRenameOutline } from "react-icons/md";
+import { MdOutlineDeleteForever } from "react-icons/md";
+
 function Tarefa({
   tarefa: { content, id, isFavorite, isDone, state },
   toggleFavorite,
@@ -13,7 +17,7 @@ function Tarefa({
 }) {
   if (state === "DESCRITO") {
     let favoriteColor = "";
-    isFavorite ? (favoriteColor = "lightpink") : (favoriteColor = "");
+    isFavorite ? (favoriteColor = "lightgray") : (favoriteColor = "");
     return (
       <article style={{ backgroundColor: favoriteColor }}>
         <div className="tarefa-metade-cima">
@@ -25,28 +29,32 @@ function Tarefa({
             onClick={(e) => toggleFavorite(e)}
             value={id}
           >
-            {isFavorite ? "Desfavoritar" : "Favoritar"}
+            {isFavorite ? (
+              <MdFavorite style={{ pointerEvents: "none" }} />
+            ) : (
+              <MdFavoriteBorder style={{ pointerEvents: "none" }} />
+            )}
           </button>
           <button
             className="btn btn-outline-primary"
             onClick={(e) => toggleDone(e)}
             value={id}
           >
-            finalizada
+            <MdDone style={{ pointerEvents: "none" }} />
           </button>
           <button
             className="btn btn-outline-primary"
             onClick={(e) => alteraTarefa(e)}
             value={id}
           >
-            alterar
+            <MdDriveFileRenameOutline style={{ pointerEvents: "none" }} />
           </button>
           <button
-            className="btn btn-outline-primary"
+            className="btn btn-outline-danger"
             onClick={(e) => removeTarefa(e)}
             value={id}
           >
-            remover
+            <MdOutlineDeleteForever style={{ pointerEvents: "none" }} />
           </button>
         </div>
       </article>

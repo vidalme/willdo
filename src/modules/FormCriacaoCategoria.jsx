@@ -1,3 +1,5 @@
+import { CgPlayListAdd } from "react-icons/cg";
+
 const FormCriacaoCategoria = ({ adicionaCategoria }) => {
   return (
     <section className="container">
@@ -12,8 +14,12 @@ const FormCriacaoCategoria = ({ adicionaCategoria }) => {
             placeholder="adicione categoria"
             name="name"
           ></input>
-          <button className="btn btn-primary" type="submit">
-            +
+          <button
+            className="btn btn-primary"
+            type="submit"
+            style={{ width: "5rem" }}
+          >
+            <CgPlayListAdd style={{ pointerEvents: "none" }} />
           </button>
         </div>
       </form>

@@ -2,6 +2,9 @@ import ListaTarefas from "./ListaTarefas";
 import { useState } from "react";
 import "./Categoria.css";
 
+import { MdDriveFileRenameOutline } from "react-icons/md";
+import { MdOutlineDeleteForever } from "react-icons/md";
+
 const possibleStates = ["NORMAL", "ALTERAR_TITULO"];
 
 function Categoria({
@@ -175,25 +178,25 @@ function Categoria({
 
   if (stateForm === "NORMAL") {
     return (
-      <article className="container">
+      <article className="card">
         <header>
           <div className="row">
             <h2 className="col-auto">{titulo}</h2>
             <button
-              className=" col-auto btn btn-outline-primary"
+              className=" col-auto btn btn-outline-primary sm"
               onClick={() => {
                 setStateForm(possibleStates[1]);
               }}
             >
-              renomear
+              <MdDriveFileRenameOutline style={{ pointerEvents: "none" }} />
             </button>
             <button
-              className=" col-auto btn btn-outline-primary"
+              className=" col-auto btn btn-outline-danger"
               onClick={() => {
                 removeCategoria(categoria.id);
               }}
             >
-              X
+              <MdOutlineDeleteForever style={{ pointerEvents: "none" }} />
             </button>
           </div>
 
