@@ -22,33 +22,40 @@ let uniqueID = 0;
 
 const possibleStates = ["NORMAL", "ALTERAR_TITULO"];
 
-function Categoria({ name, id, removeCategoria }) {
+function Categoria({ name, id, tarefas: tarefasHerdadas, removeCategoria }) {
+  //aparencias possiveis para o cabecalho da categoria
   const [stateForm, setStateForm] = useState(possibleStates[0]);
+  //edita o nome em disply da categoria
   const [titulo, setTitulo] = useState(name);
 
   const [tarefas, setTarefas] = useState([]);
 
   function setNovasTarefas(novasTarefas) {
+    tarefasHerdadas = [...novasTarefas];
     //localStorage.setItem("tarefas", JSON.stringify(novasTarefas));
     setTarefas([...novasTarefas]);
     //console.log(novasTarefas);
   }
 
+  //adiciona nova tarefa
   function adicionaTarefa(e) {
     e.preventDefault();
 
+    // separa as tarefas existentes em grupos baseado na importancia
     const favoritasTarefas = tarefas.filter((tarefa) => tarefa.isFavorite);
     const naoFavoritasTarefas = tarefas.filter((tarefa) => !tarefa.isFavorite);
+    const novaTarefa = {
+      content: e.target.novaTarefaInput.value,
+      id: uniqueID++,
+      isFavorite: false,
+      isDone: false,
+      state: "DESCRITO",
+    };
 
+    //adiciona a nova tarefa na posição correta (abaixo das favoritas mas no topo da lista)
     const novasTarefas = [
       ...favoritasTarefas,
-      {
-        content: e.target.novaTarefaInput.value,
-        id: uniqueID++,
-        isFavorite: false,
-        isDone: false,
-        state: "DESCRITO",
-      },
+      novaTarefa,
       ...naoFavoritasTarefas,
     ];
 
@@ -56,6 +63,7 @@ function Categoria({ name, id, removeCategoria }) {
   }
 
   function removeTarefa(e) {
+    //identifica e remove quem pediu pra ser removida
     setNovasTarefas([
       ...tarefas.filter((tarefa) => {
         return tarefa.id !== Number(e.target.value);
@@ -63,6 +71,7 @@ function Categoria({ name, id, removeCategoria }) {
     ]);
   }
 
+  //liga e desiliga a flag se uma tarefa epecifica é favorita
   function toggleFavorite(e) {
     const id = Number(e.target.value);
     const essaTarefa = tarefas.find((tarefa) => tarefa.id === id);
@@ -71,7 +80,7 @@ function Categoria({ name, id, removeCategoria }) {
     if (!essaTarefa.isFavorite) {
       novaOrdemTarefas = moveTopoListaTarefas(essaTarefa);
     } else {
-      novaOrdemTarefas = moveAbaixoFavoritos(essaTarefa); //moveFundoListaTarefas(essaTarefa);
+      novaOrdemTarefas = moveAbaixoFavoritos(essaTarefa);
     }
 
     essaTarefa.isFavorite = !essaTarefa.isFavorite;

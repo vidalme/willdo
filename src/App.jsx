@@ -1,10 +1,15 @@
 import { useState } from "react";
 import Categoria from "./modules/Categoria";
 import "./App.css";
+import TarefasContext from "./TarefasContext";
+import Tarefa from "./modules/Tarefa";
 
 //confere se tem dados ja salvos no cliente, se nao tiver seta pra iniciar do zero
 const cachedJson = JSON.parse(localStorage.getItem("categorias"));
 const cachedCategorias = cachedJson ? cachedJson : [];
+
+const dataas = new Date();
+const n = Number(23432);
 
 //meio que cheating aqui, tenho que ver direitinho pra criar IDs unicas
 //se tiver categorias no json do cliente, procuro elemento com id mais alto
@@ -32,6 +37,7 @@ export default function App() {
       {
         name: e.target.name.value,
         id: uniqueID++,
+        tarefas: [],
       },
     ];
     setNovasCategorias(novasCategorias);
@@ -66,6 +72,7 @@ export default function App() {
                   name={categoria.name}
                   id={categoria.id}
                   key={categoria.id}
+                  tarefas={categoria.tarefas}
                   removeCategoria={removeCategoria}
                 />
               );
