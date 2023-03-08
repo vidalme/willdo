@@ -1,40 +1,28 @@
-import Tarefa from "./Tarefa";
-import "./Categoria.css";
+import ListaTarefas from "./ListaTarefas";
 import { useState } from "react";
-
-// const jsonCateg = JSON.parse(localStorage.getItem("categorias"));
-
-// console.log(jsonCateg);
-
-// //confere se tem dados ja salvos no cliente, se nao tiver seta pra iniciar do zero
-// const cachedJson = JSON.parse(localStorage.getItem("tarefas"));
-// const cachedTarefas = cachedJson ? cachedJson : [];
-
-// //meio que cheating aqui, tenho que ver direitinho pra criar IDs unicas
-// //se tiver categorias no json do cliente, procuro elemento com id mais alto
-// // comeco a contar o meu uniqueID a partir do id mais alto encontrado no cliente
-let uniqueID = 0;
-// let uniqueID = cachedJson
-//   ? cachedJson.reduce((acc, ele) => {
-//       return ele.id > acc ? ele.id : acc;
-//     }, 0) + 1
-//   : 0;
+import "./Categoria.css";
 
 const possibleStates = ["NORMAL", "ALTERAR_TITULO"];
 
-function Categoria({ name, id, tarefas: tarefasHerdadas, removeCategoria }) {
-  //aparencias possiveis para o cabecalho da categoria
+function Categoria({
+  categoria,
+  categorias,
+  setNovasCategorias,
+  removeCategoria,
+}) {
   const [stateForm, setStateForm] = useState(possibleStates[0]);
-  //edita o nome em disply da categoria
-  const [titulo, setTitulo] = useState(name);
-
-  const [tarefas, setTarefas] = useState([]);
+  const [titulo, setTitulo] = useState(categoria.name);
+  const [tarefas, setTarefas] = useState([...categoria.tarefas]);
 
   function setNovasTarefas(novasTarefas) {
-    tarefasHerdadas = [...novasTarefas];
-    //localStorage.setItem("tarefas", JSON.stringify(novasTarefas));
+    const novaCategoria = { ...categoria, tarefas: [...novasTarefas] };
+    const novasCategorias = categorias.map((categ) => {
+      if (categ.id === categoria.id) return novaCategoria;
+      return categ;
+    });
+
     setTarefas([...novasTarefas]);
-    //console.log(novasTarefas);
+    setNovasCategorias([...novasCategorias]);
   }
 
   //adiciona nova tarefa
@@ -46,7 +34,7 @@ function Categoria({ name, id, tarefas: tarefasHerdadas, removeCategoria }) {
     const naoFavoritasTarefas = tarefas.filter((tarefa) => !tarefa.isFavorite);
     const novaTarefa = {
       content: e.target.novaTarefaInput.value,
-      id: uniqueID++,
+      id: new Date().getTime(),
       isFavorite: false,
       isDone: false,
       state: "DESCRITO",
@@ -63,80 +51,12 @@ function Categoria({ name, id, tarefas: tarefasHerdadas, removeCategoria }) {
   }
   function removeTarefa(e) {
     //identifica e remove quem pediu pra ser removida
+
     setNovasTarefas([
       ...tarefas.filter((tarefa) => {
         return tarefa.id !== Number(e.target.value);
       }),
     ]);
-  }
-
-  //liga e desiliga a flag se uma tarefa epecifica é favorita
-  function toggleFavorite(e) {
-    const id = Number(e.target.value);
-    const essaTarefa = tarefas.find((tarefa) => tarefa.id === id);
-
-    let novaOrdemTarefas = [];
-    if (!essaTarefa.isFavorite) {
-      novaOrdemTarefas = moveTopoListaTarefas(essaTarefa);
-    } else {
-      novaOrdemTarefas = moveAbaixoFavoritos(essaTarefa);
-    }
-
-    essaTarefa.isFavorite = !essaTarefa.isFavorite;
-    setNovasTarefas([...novaOrdemTarefas]);
-  }
-
-  function moveTopoListaTarefas(essaTarefa) {
-    const semEssaTarefa = tarefas.filter((tarefa) => {
-      return tarefa !== essaTarefa;
-    });
-    return [essaTarefa, ...semEssaTarefa];
-  }
-
-  function moveFundoListaTarefas(essaTarefa) {
-    const semEssaTarefa = tarefas.filter((tarefa) => {
-      return tarefa !== essaTarefa;
-    });
-    return [...semEssaTarefa, essaTarefa];
-  }
-
-  function moveAbaixoFavoritos(essaTarefa) {
-    const semEssaTarefa = tarefas.filter((tarefa) => {
-      return tarefa.id !== essaTarefa.id;
-    });
-    const tarefasFavoritas = semEssaTarefa.filter((tarefa) => {
-      return tarefa.isFavorite;
-    });
-    const tarefasNaoFavoritas = semEssaTarefa.filter((tarefa) => {
-      return !tarefa.isFavorite;
-    });
-
-    return [...tarefasFavoritas, essaTarefa, ...tarefasNaoFavoritas];
-  }
-
-  function handleAlteracaoTitulo(e) {
-    e.preventDefault();
-    setTitulo(e.target.alteraTituloInput.value);
-    setStateForm("NORMAL");
-  }
-
-  function toggleDone(e) {
-    const essaTarefa = tarefas.find((tarefa) => {
-      return tarefa.id === Number(e.target.value);
-    });
-
-    let novaOrdemTarefas = [];
-    if (!essaTarefa.isDone) {
-      novaOrdemTarefas = [...moveFundoListaTarefas(essaTarefa)];
-      essaTarefa.isFavorite = false;
-      essaTarefa.isDone = true;
-      essaTarefa.state = "FINALIZA";
-    } else {
-      essaTarefa.isDone = false;
-      essaTarefa.state = "DESCRITO";
-      novaOrdemTarefas = [...tarefas];
-    }
-    setNovasTarefas([...novaOrdemTarefas]);
   }
 
   function recuperaTarefa(e) {
@@ -185,6 +105,74 @@ function Categoria({ name, id, tarefas: tarefasHerdadas, removeCategoria }) {
     setNovasTarefas([...novasTarefas]);
   }
 
+  //liga e desiliga a flag se uma tarefa epecifica é favorita
+  function toggleFavorite(e) {
+    const id = Number(e.target.value);
+    const essaTarefa = tarefas.find((tarefa) => tarefa.id === id);
+
+    let novaOrdemTarefas = [];
+    if (!essaTarefa.isFavorite) {
+      novaOrdemTarefas = moveTopoListaTarefas(essaTarefa);
+    } else {
+      novaOrdemTarefas = moveAbaixoFavoritos(essaTarefa);
+    }
+
+    essaTarefa.isFavorite = !essaTarefa.isFavorite;
+    setNovasTarefas([...novaOrdemTarefas]);
+  }
+  function toggleDone(e) {
+    const essaTarefa = tarefas.find((tarefa) => {
+      return tarefa.id === Number(e.target.value);
+    });
+
+    let novaOrdemTarefas = [];
+    if (!essaTarefa.isDone) {
+      novaOrdemTarefas = [...moveFundoListaTarefas(essaTarefa)];
+      essaTarefa.isFavorite = false;
+      essaTarefa.isDone = true;
+      essaTarefa.state = "FINALIZA";
+    } else {
+      essaTarefa.isDone = false;
+      essaTarefa.state = "DESCRITO";
+      novaOrdemTarefas = [...tarefas];
+    }
+    setNovasTarefas([...novaOrdemTarefas]);
+  }
+
+  function moveTopoListaTarefas(essaTarefa) {
+    const semEssaTarefa = tarefas.filter((tarefa) => {
+      return tarefa !== essaTarefa;
+    });
+    return [essaTarefa, ...semEssaTarefa];
+  }
+
+  function moveFundoListaTarefas(essaTarefa) {
+    const semEssaTarefa = tarefas.filter((tarefa) => {
+      return tarefa !== essaTarefa;
+    });
+    return [...semEssaTarefa, essaTarefa];
+  }
+
+  function moveAbaixoFavoritos(essaTarefa) {
+    const semEssaTarefa = tarefas.filter((tarefa) => {
+      return tarefa.id !== essaTarefa.id;
+    });
+    const tarefasFavoritas = semEssaTarefa.filter((tarefa) => {
+      return tarefa.isFavorite;
+    });
+    const tarefasNaoFavoritas = semEssaTarefa.filter((tarefa) => {
+      return !tarefa.isFavorite;
+    });
+
+    return [...tarefasFavoritas, essaTarefa, ...tarefasNaoFavoritas];
+  }
+
+  function handleAlteracaoTitulo(e) {
+    e.preventDefault();
+    setTitulo(e.target.alteraTituloInput.value);
+    setStateForm("NORMAL");
+  }
+
   if (stateForm === "NORMAL") {
     return (
       <article className="categoria">
@@ -201,7 +189,7 @@ function Categoria({ name, id, tarefas: tarefasHerdadas, removeCategoria }) {
             </button>
             <button
               onClick={() => {
-                removeCategoria(id);
+                removeCategoria(categoria.id);
               }}
             >
               {" "}
@@ -221,18 +209,16 @@ function Categoria({ name, id, tarefas: tarefasHerdadas, removeCategoria }) {
           </form>
         </header>
 
-        <section>
-          {ListaTarefas(
-            tarefas,
-            toggleFavorite,
-            toggleDone,
-            removeTarefa,
-            recuperaTarefa,
-            alteraTarefa,
-            salvaAlterarTarefa,
-            cancelaAlterarTarefa
-          )}
-        </section>
+        <ListaTarefas
+          tarefas={tarefas}
+          removeTarefa={removeTarefa}
+          alteraTarefa={alteraTarefa}
+          recuperaTarefa={recuperaTarefa}
+          salvaAlterarTarefa={salvaAlterarTarefa}
+          cancelaAlterarTarefa={cancelaAlterarTarefa}
+          toggleDone={toggleDone}
+          toggleFavorite={toggleFavorite}
+        />
       </article>
     );
   }
@@ -263,52 +249,17 @@ function Categoria({ name, id, tarefas: tarefasHerdadas, removeCategoria }) {
             </button>
           </form>
         </header>
-        <section>
-          {ListaTarefas(
-            tarefas,
-            toggleFavorite,
-            toggleDone,
-            removeTarefa,
-            recuperaTarefa,
-            alteraTarefa,
-            salvaAlterarTarefa,
-            cancelaAlterarTarefa
-          )}
-        </section>
+        <ListaTarefas
+          tarefas={tarefas}
+          removeTarefa={removeTarefa}
+          alteraTarefa={alteraTarefa}
+          recuperaTarefa={recuperaTarefa}
+          salvaAlterarTarefa={salvaAlterarTarefa}
+          cancelaAlterarTarefa={cancelaAlterarTarefa}
+          toggleDone={toggleDone}
+          toggleFavorite={toggleFavorite}
+        />
       </article>
-    );
-  }
-}
-
-function ListaTarefas(
-  tarefas,
-  toggleFavorite,
-  toggleDone,
-  removeTarefa,
-  recuperaTarefa,
-  alteraTarefa,
-  salvaAlterarTarefa,
-  cancelaAlterarTarefa
-) {
-  if (tarefas) {
-    return (
-      <div>
-        {tarefas.map((tarefa) => {
-          return (
-            <Tarefa
-              key={tarefa.id}
-              tarefa={{ ...tarefa }}
-              toggleFavorite={toggleFavorite}
-              toggleDone={toggleDone}
-              removeTarefa={removeTarefa}
-              recuperaTarefa={recuperaTarefa}
-              alteraTarefa={alteraTarefa}
-              salvaAlterarTarefa={salvaAlterarTarefa}
-              cancelaAlterarTarefa={cancelaAlterarTarefa}
-            />
-          );
-        })}
-      </div>
     );
   }
 }
