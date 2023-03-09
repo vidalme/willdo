@@ -4,6 +4,10 @@ import { MdFavorite } from "react-icons/md";
 import { MdDone } from "react-icons/md";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { MdOutlineDeleteForever } from "react-icons/md";
+import { MdOutlineSave } from "react-icons/md";
+import { MdUndo } from "react-icons/md";
+import { AiFillFire } from "react-icons/ai";
+import { AiOutlineFire } from "react-icons/ai";
 
 function Tarefa({
   tarefa: { content, id, isFavorite, isDone, state },
@@ -13,44 +17,71 @@ function Tarefa({
   recuperaTarefa,
   alteraTarefa,
   salvaAlterarTarefa,
-  cancelaAlterarTarefa,
 }) {
   if (state === "DESCRITO") {
-    let favoriteColor = "";
-    isFavorite ? (favoriteColor = "lightgray") : (favoriteColor = "");
     return (
-      <article style={{ backgroundColor: favoriteColor }}>
-        <div className="tarefa-metade-cima">
-          <p>{content}</p>
+      <article
+        style={{
+          // backgroundColor: "whitesmoke",
+          paddingTop: "1rem",
+          paddingBottom: ".5rem",
+        }}
+      >
+        <div>
+          {isFavorite ? (
+            <h6
+              style={{
+                color: "white",
+                backgroundColor: "crimson",
+                padding: ".5rem",
+              }}
+            >
+              {content}
+            </h6>
+          ) : (
+            <h6 style={{ padding: ".5rem" }}>{content}</h6>
+          )}
         </div>
-        <div className="tarefa-metade-baixo">
+        <div
+          className="btn-group btn-group-sm"
+          role="group"
+          aria-label="Basic example"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "6fr 3fr 1fr 1fr",
+          }}
+        >
           <button
-            className="btn btn-outline-primary"
-            onClick={(e) => toggleFavorite(e)}
-            value={id}
-          >
-            {isFavorite ? (
-              <MdFavorite style={{ pointerEvents: "none" }} />
-            ) : (
-              <MdFavoriteBorder style={{ pointerEvents: "none" }} />
-            )}
-          </button>
-          <button
-            className="btn btn-outline-primary"
+            title="Concluida"
+            className="btn btn-outline-success"
             onClick={(e) => toggleDone(e)}
             value={id}
           >
             <MdDone style={{ pointerEvents: "none" }} />
           </button>
           <button
-            className="btn btn-outline-primary"
+            title="Urgentes"
+            className="btn btn-outline-danger"
+            onClick={(e) => toggleFavorite(e)}
+            value={id}
+          >
+            {isFavorite ? (
+              <AiFillFire style={{ pointerEvents: "none" }} />
+            ) : (
+              <AiOutlineFire style={{ pointerEvents: "none" }} />
+            )}
+          </button>
+          <button
+            title="Editar Tarefa"
+            className="btn btn-outline-secondary"
             onClick={(e) => alteraTarefa(e)}
             value={id}
           >
             <MdDriveFileRenameOutline style={{ pointerEvents: "none" }} />
           </button>
           <button
-            className="btn btn-outline-danger"
+            title="Remover Tarefa"
+            className="btn btn-outline-secondary"
             onClick={(e) => removeTarefa(e)}
             value={id}
           >
@@ -62,62 +93,72 @@ function Tarefa({
   }
   if (state === "ALTERA") {
     return (
-      <article className="container">
+      <article
+        style={{
+          // backgroundColor: "whitesmoke",
+          paddingTop: "1rem",
+          paddingBottom: "2.75rem",
+        }}
+      >
         <form
           id={id}
           name="form1"
           className="tarefa-metade-cima"
           onSubmit={salvaAlterarTarefa}
         >
-          <input
-            className="form-control form-control-sm"
-            type="text"
-            name="content"
-          />
-          <button className="btn btn-outline-primary" type="submit">
-            salvar
-          </button>
-          <button
-            className="btn btn-outline-primary"
-            type="reset"
-            onClick={(e) => {
-              cancelaAlterarTarefa(e);
-            }}
-            value={id}
-          >
-            cancelar
-          </button>
+          <div className="input-group">
+            <input
+              className="form-control form-control-sm"
+              type="text"
+              name="content"
+              placeholder="Nova tarefa"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+            />
+            <button className="btn btn-primary" type="submit">
+              <MdOutlineSave style={{ pointerEvents: "none" }} />
+            </button>
+          </div>
         </form>
       </article>
     );
   }
   if (state === "FINALIZA") {
     return (
-      <article className="container">
+      <article>
         <div
-          className="tarefa-metade-cima"
           style={{
-            color: "gray",
+            color: "darkgrey",
             textDecoration: "line-through",
             fontStyle: "italic",
+            marginTop: "1rem",
+            paddingLeft: ".5rem",
           }}
         >
-          <h4>{content}</h4>
+          <p>{content}</p>
         </div>
-        <div className="tarefa-metade-baixo">
+        <div
+          className="btn-group btn-group-sm"
+          role="group"
+          aria-label="Basic example"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 4fr",
+          }}
+        >
           <button
-            className="btn btn-outline-primary"
+            className="btn btn-outline-secondary"
             onClick={(e) => recuperaTarefa(e)}
             value={id}
           >
-            recuperar
+            <MdUndo style={{ pointerEvents: "none" }} />
           </button>
           <button
-            className="btn btn-outline-primary"
+            className="btn btn-outline-secondary"
             onClick={(e) => removeTarefa(e)}
             value={id}
           >
-            remover
+            <MdOutlineDeleteForever style={{ pointerEvents: "none" }} />
           </button>
         </div>
       </article>

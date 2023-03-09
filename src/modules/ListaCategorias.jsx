@@ -24,6 +24,8 @@ function ListaCategorias() {
         tarefas: [],
       },
     ];
+    e.target.reset();
+
     setNovasCategorias(novasCategorias);
   }
 
@@ -35,7 +37,7 @@ function ListaCategorias() {
   }
 
   return (
-    <main className="app-main">
+    <main>
       <FormCriacaoCategoria adicionaCategoria={adicionaCategoria} />
 
       <section className="categorias-section">
