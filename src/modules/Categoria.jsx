@@ -1,5 +1,6 @@
 import ListaTarefas from "./ListaTarefas";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 import "./Categoria.css";
 import { MdDriveFileRenameOutline } from "react-icons/md";
@@ -180,87 +181,94 @@ function Categoria({
 
   if (stateForm === "NORMAL") {
     return (
-      <article
-        className="card"
-        style={{
-          marginTop: "2rem",
-          padding: "1rem",
-          backgroundColor: "whitesmoke",
-        }}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ ease: "easeOut", duration: 0.25 }}
       >
-        <header>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginBottom: "1rem",
-              alignItems: "start",
-            }}
-          >
-            <h5 style={{ marginLeft: ".5rem" }}>{titulo}</h5>
+        <article
+          className="card"
+          style={{
+            marginTop: "2rem",
+            padding: "1rem",
+            backgroundColor: "whitesmoke",
+          }}
+        >
+          <header>
             <div
-              className="btn-group btn-group-"
-              role="group"
-              aria-label="Basic example"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: "1rem",
+                alignItems: "start",
+              }}
             >
-              <button
-                title="Editar categoria"
-                className=" btn btn-outline-secondary sm"
-                onClick={() => {
-                  setStateForm(possibleStates[1]);
-                }}
-              >
-                <MdDriveFileRenameOutline style={{ pointerEvents: "none" }} />
-              </button>
-              <button
-                title="Remover Categoria"
-                className="btn btn-outline-secondary"
-                onClick={() => {
-                  removeCategoria(categoria.id);
-                }}
-              >
-                <MdOutlineDeleteForever style={{ pointerEvents: "none" }} />
-              </button>
-            </div>
-          </div>
+              <h5 style={{ marginLeft: ".5rem" }}>{titulo}</h5>
 
-          <form
-            action="./"
-            className="form-adicionar-tarefa"
-            onSubmit={(e) => {
-              adicionaTarefa(e);
-            }}
-          >
-            <div className="input-group">
-              <input
-                className="form-control"
-                type="text"
-                name="novaTarefaInput"
-                placeholder="Criar nova tarefa"
-              />
-              <button
-                title="Nova tarefa"
-                className="btn btn-primary"
-                style={{ width: "2.6rem" }}
+              <div
+                className="btn-group btn-group-"
+                role="group"
+                aria-label="Basic example"
               >
-                +
-              </button>
+                <button
+                  title="Editar categoria"
+                  className=" btn btn-outline-secondary sm"
+                  onClick={() => {
+                    setStateForm(possibleStates[1]);
+                  }}
+                >
+                  <MdDriveFileRenameOutline style={{ pointerEvents: "none" }} />
+                </button>
+                <button
+                  title="Remover Categoria"
+                  className="btn btn-outline-secondary"
+                  onClick={() => {
+                    removeCategoria(categoria.id);
+                  }}
+                >
+                  <MdOutlineDeleteForever style={{ pointerEvents: "none" }} />
+                </button>
+              </div>
             </div>
-          </form>
-          <hr />
-        </header>
 
-        <ListaTarefas
-          tarefas={tarefas}
-          removeTarefa={removeTarefa}
-          alteraTarefa={alteraTarefa}
-          recuperaTarefa={recuperaTarefa}
-          salvaAlterarTarefa={salvaAlterarTarefa}
-          cancelaAlterarTarefa={cancelaAlterarTarefa}
-          toggleDone={toggleDone}
-          toggleFavorite={toggleFavorite}
-        />
-      </article>
+            <form
+              action="./"
+              className="form-adicionar-tarefa"
+              onSubmit={(e) => {
+                adicionaTarefa(e);
+              }}
+            >
+              <div className="input-group">
+                <input
+                  className="form-control"
+                  type="text"
+                  name="novaTarefaInput"
+                  placeholder="Criar nova tarefa"
+                />
+                <button
+                  title="Nova tarefa"
+                  className="btn btn-primary"
+                  style={{ width: "2.6rem" }}
+                >
+                  +
+                </button>
+              </div>
+            </form>
+            <hr />
+          </header>
+
+          <ListaTarefas
+            tarefas={tarefas}
+            removeTarefa={removeTarefa}
+            alteraTarefa={alteraTarefa}
+            recuperaTarefa={recuperaTarefa}
+            salvaAlterarTarefa={salvaAlterarTarefa}
+            cancelaAlterarTarefa={cancelaAlterarTarefa}
+            toggleDone={toggleDone}
+            toggleFavorite={toggleFavorite}
+          />
+        </article>
+      </motion.div>
     );
   }
   if (stateForm === "ALTERAR_TITULO") {
