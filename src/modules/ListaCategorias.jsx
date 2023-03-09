@@ -1,7 +1,6 @@
 import Categoria from "./Categoria";
 import FormCriacaoCategoria from "./FormCriacaoCategoria";
 import { useState } from "react";
-import { motion } from "framer-motion";
 
 //confere se tem dados ja salvos no cliente, se nao tiver seta pra iniciar do zero
 const cachedJson = JSON.parse(localStorage.getItem("categorias"));

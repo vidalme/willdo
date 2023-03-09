@@ -2,7 +2,6 @@ import ListaTarefas from "./ListaTarefas";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-import "./Categoria.css";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { MdOutlineSave } from "react-icons/md";
@@ -191,7 +190,7 @@ function Categoria({
           style={{
             marginTop: "2rem",
             padding: "1rem",
-            backgroundColor: "whitesmoke",
+            backgroundColor: "#eeeeee",
           }}
         >
           <header>
@@ -199,7 +198,8 @@ function Categoria({
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                marginBottom: "1rem",
+                marginBottom: ".8rem",
+                marginTop: ".5rem",
                 alignItems: "start",
               }}
             >
@@ -254,67 +254,77 @@ function Categoria({
                 </button>
               </div>
             </form>
-            <hr />
           </header>
-
-          <ListaTarefas
-            tarefas={tarefas}
-            removeTarefa={removeTarefa}
-            alteraTarefa={alteraTarefa}
-            recuperaTarefa={recuperaTarefa}
-            salvaAlterarTarefa={salvaAlterarTarefa}
-            cancelaAlterarTarefa={cancelaAlterarTarefa}
-            toggleDone={toggleDone}
-            toggleFavorite={toggleFavorite}
-          />
+          <hr />
+          <div>
+            <ListaTarefas
+              tarefas={tarefas}
+              removeTarefa={removeTarefa}
+              alteraTarefa={alteraTarefa}
+              recuperaTarefa={recuperaTarefa}
+              salvaAlterarTarefa={salvaAlterarTarefa}
+              cancelaAlterarTarefa={cancelaAlterarTarefa}
+              toggleDone={toggleDone}
+              toggleFavorite={toggleFavorite}
+            />
+          </div>
         </article>
       </motion.div>
     );
   }
   if (stateForm === "ALTERAR_TITULO") {
     return (
-      <article
-        className="card"
-        style={{
-          marginTop: "2rem",
-          padding: "1rem",
-          backgroundColor: "#eeeeee",
-        }}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ ease: "easeOut", duration: 0.25 }}
       >
-        <header style={{ marginTop: "0rem", marginBottom: "3.4rem" }}>
-          <form
-            onSubmit={(e) => {
-              handleAlteracaoTitulo(e);
-            }}
-          >
-            <div className="input-group">
-              <input
-                className="form-control form-control-md"
-                placeholder="novo titulo"
-                name="alteraTituloInput"
-                id="alteraTituloInput"
-              />
-              <button
-                title="Salvar Categoria"
-                className="btn btn-primary"
-                action="submit"
-              >
-                <MdOutlineSave style={{ pointerEvents: "none" }} />
-              </button>
-            </div>
-          </form>
-        </header>
-        <hr />
-        <ListaTarefas
-          tarefas={tarefas}
-          removeTarefa={removeTarefa}
-          alteraTarefa={alteraTarefa}
-          recuperaTarefa={recuperaTarefa}
-          salvaAlterarTarefa={salvaAlterarTarefa}
-          toggleDone={toggleDone}
-          toggleFavorite={toggleFavorite}
-        />
-      </article>
+        <article
+          className="card"
+          style={{
+            marginTop: "2rem",
+            padding: "1rem",
+            backgroundColor: "#eeeeee",
+          }}
+        >
+          <header style={{ marginTop: "0rem", marginBottom: "3.4rem" }}>
+            <form
+              onSubmit={(e) => {
+                handleAlteracaoTitulo(e);
+              }}
+            >
+              <div className="input-group">
+                <input
+                  className="form-control form-control-md"
+                  placeholder="novo titulo"
+                  name="alteraTituloInput"
+                  id="alteraTituloInput"
+                />
+                <button
+                  title="Salvar Categoria"
+                  className="btn btn-primary"
+                  action="submit"
+                >
+                  <MdOutlineSave style={{ pointerEvents: "none" }} />
+                </button>
+              </div>
+            </form>
+          </header>
+          <hr />
+          <div>
+            <ListaTarefas
+              tarefas={tarefas}
+              removeTarefa={removeTarefa}
+              alteraTarefa={alteraTarefa}
+              recuperaTarefa={recuperaTarefa}
+              salvaAlterarTarefa={salvaAlterarTarefa}
+              cancelaAlterarTarefa={cancelaAlterarTarefa}
+              toggleDone={toggleDone}
+              toggleFavorite={toggleFavorite}
+            />
+          </div>
+        </article>
+      </motion.div>
     );
   }
 }

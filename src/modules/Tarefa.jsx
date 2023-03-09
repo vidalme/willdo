@@ -1,4 +1,3 @@
-import "./Tarefa.css";
 import { MdDone } from "react-icons/md";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { MdOutlineDeleteForever } from "react-icons/md";
@@ -6,10 +5,9 @@ import { MdOutlineSave } from "react-icons/md";
 import { MdUndo } from "react-icons/md";
 import { AiFillFire } from "react-icons/ai";
 import { AiOutlineFire } from "react-icons/ai";
-import { motion } from "framer-motion";
 
 function Tarefa({
-  tarefa: { content, id, isFavorite, isDone, state },
+  tarefa: { content, id, isFavorite, state },
   toggleFavorite,
   toggleDone,
   removeTarefa,
@@ -22,7 +20,7 @@ function Tarefa({
       <article
         style={{
           // backgroundColor: "whitesmoke",
-          paddingTop: "1rem",
+          paddingTop: ".5rem",
           paddingBottom: ".5rem",
         }}
       >
