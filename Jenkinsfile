@@ -9,9 +9,11 @@ pipeline {
         }
 
         stage('Install dependencies') {
-            sh 'npm install' 
+            steps {
+                sh 'npm install' 
+                sh 'echo sucessoboyyyy'
+            }
         }
-        
     }
 
     
