@@ -7,8 +7,14 @@ pipeline {
                 git url: 'https://github.com/vidalme/willdo.git', branch: 'main'
             }
         }
+
+        stage('Install dependencies') {
+            sh 'npm install' 
+        }
+        
     }
 
+    
     post {
         success {
             echo 'Build and tests successful!'
@@ -18,3 +24,4 @@ pipeline {
         }
     }
 }
+
