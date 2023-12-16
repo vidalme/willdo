@@ -11,7 +11,11 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 sh 'npm install' 
-                sh 'echo sucessoboyyyy'
+            }
+        }
+        stage('build artifact') {
+            steps {
+                sh 'npm run build'
             }
         }
     }
