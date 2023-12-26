@@ -1,6 +1,14 @@
 # willdo
-
 Live version-> https://willdonow.netlify.app <br/><br/>
+
+## Docker build
+https://hub.docker.com/r/vidalme/willdo-img
+
+You can pull the docker image
+docker pull vidalme/willdo-img
+
+Run it with
+docker run -d -p 5000:5000 vidalme/willdo-img
 
 
 Todo list with some twist<br/>
