@@ -1,16 +1,15 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-1:703823446403:task-definition/cicd-app-td:1",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:703823446403:task-definition/willdo-app-cl:1",
     "containerDefinitions": [
         {
-            "name": "cicd-app-container",
+            "name": "willdo-cont",
             "image": "703823446403.dkr.ecr.us-east-1.amazonaws.com/vidalme",
-            "cpu": 1024,
-            "memory": 2048,
+            "cpu": 0,
             "portMappings": [
                 {
-                    "name": "cicd-app-container-8080-tcp",
-                    "containerPort": 8080,
-                    "hostPort": 8080,
+                    "name": "willdo-cont-3000-tcp",
+                    "containerPort": 3000,
+                    "hostPort": 3000,
                     "protocol": "tcp",
                     "appProtocol": "http"
                 }
@@ -25,7 +24,7 @@
                 "logDriver": "awslogs",
                 "options": {
                     "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/cicd-app-td",
+                    "awslogs-group": "/ecs/willdo-app-cl",
                     "awslogs-region": "us-east-1",
                     "awslogs-stream-prefix": "ecs"
                 },
@@ -34,7 +33,7 @@
             "systemControls": []
         }
     ],
-    "family": "cicd-app-td",
+    "family": "willdo-app-cl",
     "executionRoleArn": "arn:aws:iam::703823446403:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
     "revision": 1,
@@ -80,7 +79,7 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2024-05-08T20:37:52.231Z",
+    "registeredAt": "2024-05-10T07:05:13.472Z",
     "registeredBy": "arn:aws:iam::703823446403:user/primeiro",
     "tags": []
 }

@@ -1,7 +1,7 @@
 # willdo
 Live version-> https://willdonow.netlify.app <br/><br/>
 
-Running container on AWS -> http://52.87.165.143:5000/
+Running container on AWS -> http://52.87.165.143:3000/
 
 ## Docker build
 https://hub.docker.com/r/vidalme/willdo-img
@@ -10,7 +10,7 @@ You can pull the docker image<br>
 docker pull vidalme/willdo-img
 
 Run it with <br>
-docker run -d -p 5000:5000 vidalme/willdo-img
+docker run -d -p 3000:3000 vidalme/willdo-img
 
 ### Todo list with some twist<br/>
 -> Categories: you can create and organize categories for your tasks, organization is key.<br/>
