@@ -6,6 +6,6 @@ services:
       dockerfile: Dockerfile
     image: vidalme/willdo-img:v4
     ports:
-      - "8080:3000"
+      - "3000:3000"
     environment:
       - NODE_ENV=production

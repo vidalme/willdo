@@ -1,22 +1,23 @@
-# willdo
-Live version-> https://willdonow.netlify.app <br/><br/>
+# Willdo
 
-Running container on AWS -> http://52.87.165.143:3000/
+<h3>CI/CD on push main.</h3>
 
-## Docker build
-https://hub.docker.com/r/vidalme/willdo-img
+App live  ( ECS deploy ) -> http://3.90.65.110:3000/
 
-You can pull the docker image<br>
-docker pull vidalme/willdo-img
+OR
 
-Run it with <br>
-docker run -d -p 3000:3000 vidalme/willdo-img
+Run local with `docker compose up -d`
 
-### Todo list with some twist<br/>
+
+### Willdo is a todo list with some twist
 -> Categories: you can create and organize categories for your tasks, organization is key.<br/>
 -> Favorites : Tasks can be favorited and brought up to the top of the list and labeling them very important.<br/>
 -> Redo: Tasks can be brought back to the todo list after they've been finished, also you can delete them permanently<br/>
 -> Local storage: All data persists in the browser, throughout undefined span of time.<br/>
 -> 100% responsive.<br/>
 <br/>
+
+
+<p>old version still running-> https://willdonow.netlify.app <br/><br/>
+
 
